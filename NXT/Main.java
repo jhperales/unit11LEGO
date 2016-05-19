@@ -1,4 +1,5 @@
 import lejos.nxt.*;
+
 public class Main
 {
     public static void main(String[] args)
@@ -13,27 +14,27 @@ public class Main
             if( result[0] == true && result[1] == true && result[2] == true )
             {
                 //turns robot 180 degrees
-                robot.turnRight( 16000 );
+                robot.rotateRight( 16000 );
             }
             if( result[0] == false && result[1] == true && result[2] == true )
             {
                 //turns robot 90 degrees left
-                robot.turnLeft( 1500 );
+                robot.rotateLeft( 1500 );
             }
             if( result[0] == false && result[1] == false && result[2] == true )
             {
                 //turns robot 45 degrees left
-                robot.turnLeft( 750 );
+                robot.rotateLeft( 750 );
             }
             if( result[0] == true && result[1] == true && result[2] == false )
             {
                 //turns robot 90 degrees right
-                robot.turnRight( 1500 );
+                robot.rotateRight( 1500 );
             }
             if( result[0] == true && result[1] == false && result[2] == false )
             {
                 //turns robot 45 degrees right
-                robot.turnRight( 750 );
+                robot.rotateRight( 750 );
             }
             if( result[0] == false && result[1] == false && result[2] == false || 
             result[0] == true && result[1] == false && result[2] == true )

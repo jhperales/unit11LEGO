@@ -1,5 +1,4 @@
 import lejos.nxt.*;
-import lejos.util.*;
 
 /**
  * 
@@ -13,14 +12,11 @@ public class Robot
     public TouchSensor tRight = new TouchSensor(SensorPort.S4);
     private int knockCount;
     private boolean[] detection = new boolean[3];
-    private boolean turnL;
-    private Delay timer;
 
     public Robot()
     {
         knockCount = 0;
-        turnL = false;
-        Motor.A.setSpeed( 1000 );
+        Motor.A.setSpeed( 500 );
     }
 
     public boolean detectedBounds()
@@ -29,15 +25,20 @@ public class Robot
         {
             return true;
         }
-
         return false;
     }
 
     public void resetHead()
     {
         //resets the head to face left
-        int angle = Motor.A.getTachoCount();
-        Motor.A.rotate( -( angle - (-90) ) );
+        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
+        {
+            Motor.A.rotate( -90 );
+        }
+        if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
+        {
+            Motor.A.rotate( -180 );
+        }
     }
 
     public void stopMoving()
@@ -58,20 +59,32 @@ public class Robot
         Motor.C.forward();
     }
 
-    public void turnLeft( int time )
+    public void rotateLeft( int degree )
     {
-        Motor.B.backward();
-        Motor.C.forward();
-        timer.msDelay( time );
         stopMoving();
+        Motor.B.rotate();
+        Motor.C.forward();
+
     }
 
-    public void turnRight( int time )
+    public void rotateRight( int degree )
     {
+        stopMoving();
         Motor.B.forward();
         Motor.C.backward();
-        timer.msDelay( time );
+
+    }
+
+    public void turnLeft( int degree )
+    {
         stopMoving();
+        Motor.C.rotate( degree );
+    }
+
+    public void turnRight( int degree )
+    {
+        stopMoving();
+        Motor.B.rotate( degree );
     }
 
     public boolean[] detect()
@@ -80,61 +93,61 @@ public class Robot
          * detection[1] - front
          * detection[2] - right
          */
-        //turns the robot a full rotation (180 degrees) and scans three times
-        if ( us.getDistance() <= 40 )
+        //turns the robot a full rotation (180 degrees) and scans three times CHECK DISTANCE VALUE OUTPUT
+        if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
         {
-            if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
-            {
-                detection[1] = true;
-                Motor.A.rotate( 90 );
-            }
-            if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
-            {
-                detection[2] = true;
-                Motor.A.rotate( -90 );
-            }
-            if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
+            if ( us.getDistance() <= 40 )
             {
                 detection[0] = true;
-                Motor.A.rotate( 90 );
-                turnL = false;
+                Motor.A.rotateTo( 90 );
+            }
+            else
+            {
+                detection[0] = false;
+                Motor.A.rotateTo( 90 );
             }
         }
-        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
+        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
         {
-            detection[1] = false;
-            Motor.A.rotate( 90 );
-            turnL = true;
-        }
-        else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
-        {
-            detection[1] = false;
-            Motor.A.rotate( -90 );
+            if ( us.getDistance() <= 40 )
+            {
+                detection[1] = true;
+                Motor.A.rotateTo( 90 );
+            }
+            else
+            {
+                detection[1] = false;
+                Motor.A.rotateTo( 90 );
+            }
         }
         if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
         {
-            detection[2] = false;
-            Motor.A.rotate( -90 );
+            if ( us.getDistance() <= 40 )
+            {
+                detection[2] = true;
+                resetHead();
+            }
+            else
+            {
+                detection[2] = false;
+                resetHead();
+            }
         }
-        if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
-        {
-            detection[0] = false;
-            Motor.A.rotate( 90 );
-            turnL = false;
-        }
-        resetHead();
         return detection;
     }
 
     public void patrol()
     {
+        setSpeed( 400 );
         while( knockCount != 6 )
         {
-            turnRight( 20 );
-            forward();
             if( detectedBounds() )
             {
-                stopMoving();
+                turnRight( 90 );
+            }
+            else if( !detectedBounds() )
+            {
+                forward();
             }
             if( tLeft.isPressed() )
             {
