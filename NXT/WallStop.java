@@ -20,8 +20,7 @@ public class WallStop
                 Motor.C.stop();
                 break;
             }
-            
-            
+
             if (Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false)
             {
                 Motor.A.rotate(90);
@@ -31,18 +30,18 @@ public class WallStop
             {
                 Motor.A.rotate(-90);
             }
-            
+
             if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
             {
                 Motor.A.rotate(-90);
             }
-            
+
             if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
             {
                 Motor.A.rotate(90);
                 turnL = false;
             }
-            
+
         }    
     }
 }

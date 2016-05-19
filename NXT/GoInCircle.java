@@ -8,7 +8,7 @@ public class GoInCircle
         Motor.C.setSpeed(1000);
         Motor.B.forward();
         Motor.C.forward();
-        
+
         Button.waitForAnyPress();
     }
 }
