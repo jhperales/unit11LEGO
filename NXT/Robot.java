@@ -10,13 +10,11 @@ public class Robot
     public LightSensor light = new LightSensor(SensorPort.S2);
     public TouchSensor tLeft = new TouchSensor(SensorPort.S3);
     public TouchSensor tRight = new TouchSensor(SensorPort.S4);
-    private int knockCount;
     private boolean[] detection = new boolean[3];
 
     public Robot()
     {
-        knockCount = 0;
-        Motor.A.setSpeed( 500 );
+        Motor.A.setSpeed( 750 );
     }
 
     public boolean detectedBounds()
@@ -33,11 +31,11 @@ public class Robot
         //resets the head to face left
         if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
         {
-            Motor.A.rotate( -90 );
+            Motor.A.rotateTo( -90 );
         }
         if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
         {
-            Motor.A.rotate( -180 );
+            Motor.A.rotateTo( -180 );
         }
     }
 
@@ -58,21 +56,20 @@ public class Robot
         Motor.B.forward();
         Motor.C.forward();
     }
-
+    
+    //270 degree rotation = 90 degree turn (3:1)
     public void rotateLeft( int degree )
     {
         stopMoving();
-        Motor.B.rotate();
-        Motor.C.forward();
-
+        Motor.B.rotate( -( degree ) );
+        Motor.C.rotate( degree );
     }
 
     public void rotateRight( int degree )
     {
         stopMoving();
-        Motor.B.forward();
-        Motor.C.backward();
-
+        Motor.B.rotate( degree );
+        Motor.C.rotate( -( degree ) );
     }
 
     public void turnLeft( int degree )
@@ -138,20 +135,24 @@ public class Robot
 
     public void patrol()
     {
-        setSpeed( 400 );
-        while( knockCount != 6 )
+        setSpeed( 500 );
+        while( Button.readButtons() <= 0 )
         {
             if( detectedBounds() )
             {
-                turnRight( 90 );
+                turnRight( 60 );
             }
             else if( !detectedBounds() )
             {
                 forward();
             }
-            if( tLeft.isPressed() )
+            if( tLeft.isPressed() || tRight.isPressed() || ( tLeft.isPressed() && tRight.isPressed() ) )
             {
-                knockCount += 1;
+                setSpeed( 250 );
+            }
+            else
+            {
+                setSpeed( 500 );
             }
         }
         stopMoving();

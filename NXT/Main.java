@@ -6,6 +6,7 @@ public class Main
     {
         Robot robot = new Robot();
         robot.resetHead();
+        
         //Find opening
         boolean moveOut = false;
         while( moveOut != true )
@@ -14,27 +15,27 @@ public class Main
             if( result[0] == true && result[1] == true && result[2] == true )
             {
                 //turns robot 180 degrees
-                robot.rotateRight( 16000 );
+                robot.rotateRight( 540 );
             }
             if( result[0] == false && result[1] == true && result[2] == true )
             {
                 //turns robot 90 degrees left
-                robot.rotateLeft( 1500 );
+                robot.rotateLeft( 270 );
             }
             if( result[0] == false && result[1] == false && result[2] == true )
             {
                 //turns robot 45 degrees left
-                robot.rotateLeft( 750 );
+                robot.rotateLeft( 135 );
             }
             if( result[0] == true && result[1] == true && result[2] == false )
             {
                 //turns robot 90 degrees right
-                robot.rotateRight( 1500 );
+                robot.rotateRight( 270 );
             }
             if( result[0] == true && result[1] == false && result[2] == false )
             {
                 //turns robot 45 degrees right
-                robot.rotateRight( 750 );
+                robot.rotateRight( 135 );
             }
             if( result[0] == false && result[1] == false && result[2] == false || 
             result[0] == true && result[1] == false && result[2] == true )
@@ -52,8 +53,6 @@ public class Main
             //Just prevents the rest of the code until the bounds are found
         }
 
-        robot.stopMoving();
         robot.patrol();
-
     }
 }
