@@ -35,14 +35,8 @@ public class Robot
     public void resetHead()
     {
         //resets the head to face left
-        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
-        {
-            Motor.A.rotate(-90);
-        }
-        if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
-        {
-            Motor.A.rotate(-180);
-        }
+        int angle = Motor.A.getTachoCount();
+        Motor.A.rotate( -( angle - (-90) ) );
     }
 
     public void stopMoving()
