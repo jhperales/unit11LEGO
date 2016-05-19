@@ -5,7 +5,6 @@ public class Main
     {
         Robot robot = new Robot();
         robot.resetHead();
-        
         //Find opening
         boolean moveOut = false;
         while( moveOut != true )
@@ -14,27 +13,27 @@ public class Main
             if( result[0] == true && result[1] == true && result[2] == true )
             {
                 //turns robot 180 degrees
-                robot.turnRight( 2000 );
+                robot.turnRight( 16000 );
             }
             if( result[0] == false && result[1] == true && result[2] == true )
             {
                 //turns robot 90 degrees left
-                robot.turnLeft( 1000 );
+                robot.turnLeft( 1500 );
             }
             if( result[0] == false && result[1] == false && result[2] == true )
             {
                 //turns robot 45 degrees left
-                robot.turnLeft( 500 );
+                robot.turnLeft( 750 );
             }
             if( result[0] == true && result[1] == true && result[2] == false )
             {
                 //turns robot 90 degrees right
-                robot.turnRight( 1000 );
+                robot.turnRight( 1500 );
             }
             if( result[0] == true && result[1] == false && result[2] == false )
             {
                 //turns robot 45 degrees right
-                robot.turnRight( 500 );
+                robot.turnRight( 750 );
             }
             if( result[0] == false && result[1] == false && result[2] == false || 
             result[0] == true && result[1] == false && result[2] == true )
@@ -42,7 +41,7 @@ public class Main
                 moveOut = true;
             }
         }
-        
+
         //Get to line
         robot.setSpeed(1000);
         robot.forward();
@@ -54,5 +53,6 @@ public class Main
 
         robot.stopMoving();
         robot.patrol();
+
     }
 }

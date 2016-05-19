@@ -1,4 +1,5 @@
 import lejos.nxt.*;
+import lejos.util.*;
 
 /**
  * 
@@ -11,8 +12,9 @@ public class Robot
     public TouchSensor tLeft = new TouchSensor(SensorPort.S3);
     public TouchSensor tRight = new TouchSensor(SensorPort.S4);
     private int knockCount;
-    private boolean[] detection;
+    private boolean[] detection = new boolean[3];
     private boolean turnL;
+    private Delay timer;
 
     public Robot()
     {
@@ -23,8 +25,7 @@ public class Robot
 
     public boolean detectedBounds()
     {
-        System.out.println(light.getLightValue());
-        if (light.getLightValue() >= 0 && light.getLightValue() < 30)
+        if (light.getLightValue() >= 0 && light.getLightValue() < 40)
         {
             return true;
         }
@@ -45,11 +46,6 @@ public class Robot
         Motor.B.stop();
     }
 
-    public boolean isOut()
-    {
-        return out;
-    }
-
     public void setSpeed(int speed)
     {
         Motor.B.setSpeed(speed);
@@ -66,7 +62,7 @@ public class Robot
     {
         Motor.B.backward();
         Motor.C.forward();
-        msDelay( time );
+        timer.msDelay( time );
         stopMoving();
     }
 
@@ -74,7 +70,7 @@ public class Robot
     {
         Motor.B.forward();
         Motor.C.backward();
-        msDelay( time );
+        timer.msDelay( time );
         stopMoving();
     }
 
@@ -85,57 +81,48 @@ public class Robot
          * detection[2] - right
          */
         //turns the robot a full rotation (180 degrees) and scans three times
-        for( int i = 0; i < 3; i++ )
+        if ( us.getDistance() <= 40 )
         {
-            int angle = Motor.A.getTachoCount();
-            if ( us.getDistance() <= 20 && us.getDistance() != 255 )
+            if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
             {
-                if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
-                {
-                    detection[1] = true;
-                    Motor.A.rotate( -( angle - 90 ) );
-                    turnL = true;
-                }
-                else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
-                {
-                    detection[1] = true;
-                    Motor.A.rotate( -( angle - (-90) ) );
-                }
-                if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
-                {
-                    detection[2] = true;
-                    Motor.A.rotate( -( angle - (-90) ) );
-                }
-                if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
-                {
-                    detection[0] = true;
-                    Motor.A.rotate( -( angle - 90 ) );
-                    turnL = false;
-                }
-            }
-            if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
-            {
-                detection[1] = false;
-                Motor.A.rotate( -( angle - 90 ) );
-                turnL = true;
-            }
-            else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
-            {
-                detection[1] = false;
-                Motor.A.rotate( -( angle - (-90) ) );
+                detection[1] = true;
+                Motor.A.rotate( 90 );
             }
             if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
             {
-                detection[2] = false;
-                Motor.A.rotate( -( angle - (-90) ) );
+                detection[2] = true;
+                Motor.A.rotate( -90 );
             }
             if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
             {
-                detection[0] = false;
-                Motor.A.rotate( -( angle - 90 ) );
+                detection[0] = true;
+                Motor.A.rotate( 90 );
                 turnL = false;
             }
         }
+        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
+        {
+            detection[1] = false;
+            Motor.A.rotate( 90 );
+            turnL = true;
+        }
+        else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
+        {
+            detection[1] = false;
+            Motor.A.rotate( -90 );
+        }
+        if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
+        {
+            detection[2] = false;
+            Motor.A.rotate( -90 );
+        }
+        if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
+        {
+            detection[0] = false;
+            Motor.A.rotate( 90 );
+            turnL = false;
+        }
+        resetHead();
         return detection;
     }
 
@@ -143,7 +130,7 @@ public class Robot
     {
         while( knockCount != 6 )
         {
-            turnRight( 250 );
+            turnRight( 20 );
             forward();
             if( detectedBounds() )
             {
@@ -154,6 +141,6 @@ public class Robot
                 knockCount += 1;
             }
         }
-        stopAllMotors();
+        stopMoving();
     }
 }
