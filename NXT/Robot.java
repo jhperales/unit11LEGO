@@ -87,51 +87,52 @@ public class Robot
         //turns the robot a full rotation (180 degrees) and scans three times
         for( int i = 0; i < 3; i++ )
         {
+            int angle = Motor.A.getTachoCount();
             if ( us.getDistance() <= 20 && us.getDistance() != 255 )
             {
                 if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
                 {
                     detection[1] = true;
-                    Motor.A.rotate(90);
+                    Motor.A.rotate( -( angle - 90 ) );
                     turnL = true;
                 }
                 else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
                 {
                     detection[1] = true;
-                    Motor.A.rotate(-90);
+                    Motor.A.rotate( -( angle - (-90) ) );
                 }
                 if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
                 {
                     detection[2] = true;
-                    Motor.A.rotate(-90);
+                    Motor.A.rotate( -( angle - (-90) ) );
                 }
                 if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
                 {
                     detection[0] = true;
-                    Motor.A.rotate(90);
+                    Motor.A.rotate( -( angle - 90 ) );
                     turnL = false;
                 }
             }
             if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == false )
             {
                 detection[1] = false;
-                Motor.A.rotate(90);
+                Motor.A.rotate( -( angle - 90 ) );
                 turnL = true;
             }
             else if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 && turnL == true )
             {
                 detection[1] = false;
-                Motor.A.rotate(-90);
+                Motor.A.rotate( -( angle - (-90) ) );
             }
             if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
             {
                 detection[2] = false;
-                Motor.A.rotate(-90);
+                Motor.A.rotate( -( angle - (-90) ) );
             }
             if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
             {
                 detection[0] = false;
-                Motor.A.rotate(90);
+                Motor.A.rotate( -( angle - 90 ) );
                 turnL = false;
             }
         }
