@@ -1,4 +1,5 @@
 import lejos.nxt.*;
+import lejos.robotics.navigation.DifferentialPilot;
 
 /**
  * 
@@ -10,6 +11,7 @@ public class Robot
     public LightSensor light = new LightSensor(SensorPort.S2);
     public TouchSensor tLeft = new TouchSensor(SensorPort.S3);
     public TouchSensor tRight = new TouchSensor(SensorPort.S4);
+    public DifferentialPilot pdrive = new DifferentialPilot( 18, 18, Motor.B, Motor.C );
     private boolean[] detection = new boolean[3];
 
     public Robot()
@@ -33,15 +35,14 @@ public class Robot
     public void resetHead()
     {
         //resets the head to face left
-        Motor.A.rotateTo( -90, false );
-        //         if( Motor.A.getTachoCount() > -2 && Motor.A.getTachoCount() < 2 )
-        //         {
-        //             Motor.A.rotateTo( -90, false );
-        //         }
-        //         if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
-        //         {
-        //             Motor.A.rotateTo( -90, false );
-        //         }
+        if( Motor.A.getTachoCount() > -2 && Motor.A.getTachoCount() < 2 )
+        {
+            Motor.A.rotateTo( -90 );
+        }
+        if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
+        {
+            Motor.A.rotateTo( -90 );
+        }
     }
 
     public void stopMoving()
@@ -60,21 +61,6 @@ public class Robot
     {
         Motor.B.forward();
         Motor.C.forward();
-    }
-
-    //540 degree rotation = 90 degree turn (6:1)
-    public void rotateLeft( int degree )
-    {
-        stopMoving();
-        Motor.B.rotate( -( degree ) );
-        Motor.C.rotate( degree );
-    }
-
-    public void rotateRight( int degree )
-    {
-        stopMoving();
-        Motor.B.rotate( degree );
-        Motor.C.rotate( -( degree ) );
     }
 
     public void turnLeft( int degree )
@@ -98,45 +84,39 @@ public class Robot
         //turns the head a full rotation (180 degrees) and scans three times CHECK DISTANCE VALUE OUTPUT
         if (Motor.A.getTachoCount() > -92 && Motor.A.getTachoCount() < -88)
         {
-            if ( us.getDistance() <= 40 )
+            if ( us.getDistance() <= 28 )
             {
-                System.out.println( us.getDistance() );
                 detection[0] = true;
-                Motor.A.rotateTo( 0, false );
+                Motor.A.rotateTo( 0 );
             }
             else
             {
-                System.out.println( us.getDistance() );
                 detection[0] = false;
-                Motor.A.rotateTo( 0, false );
+                Motor.A.rotateTo( 0 );
             }
         }
         if( Motor.A.getTachoCount() > -2 && Motor.A.getTachoCount() < 2 )
         {
-            if ( us.getDistance() <= 40 )
+            if ( us.getDistance() <= 28 )
             {
-                System.out.println( us.getDistance() );
                 detection[1] = true;
-                Motor.A.rotateTo( 90, false );
+                Motor.A.rotateTo( 90 );
             }
             else
             {
-                System.out.println( us.getDistance() );
                 detection[1] = false;
-                Motor.A.rotateTo( 90, false );
+                Motor.A.rotateTo( 90 );
             }
         }
         if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
         {
-            if ( us.getDistance() <= 40 )
+            if ( us.getDistance() <= 28 )
             {
-                System.out.println( us.getDistance() );
                 detection[2] = true;
                 resetHead();
             }
             else
             {
-                System.out.println( us.getDistance() );
                 detection[2] = false;
                 resetHead();
             }
@@ -150,7 +130,7 @@ public class Robot
         {
             if( detectedBounds() )
             {
-                turnRight( 120 );
+                turnRight( 720 );
             }
             else if( !detectedBounds() )
             {
