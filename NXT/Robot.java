@@ -29,14 +29,15 @@ public class Robot
     public void resetHead()
     {
         //resets the head to face left
-        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
-        {
-            Motor.A.rotate( -90 );
-        }
-        if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
-        {
-            Motor.A.rotate( -180 );
-        }
+        Motor.A.rotateTo( -90, false );
+        //         if( Motor.A.getTachoCount() > -2 && Motor.A.getTachoCount() < 2 )
+        //         {
+        //             Motor.A.rotateTo( -90, false );
+        //         }
+        //         if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
+        //         {
+        //             Motor.A.rotateTo( -90, false );
+        //         }
     }
 
     public void stopMoving()
@@ -56,7 +57,7 @@ public class Robot
         Motor.B.forward();
         Motor.C.forward();
     }
-    
+
     //540 degree rotation = 90 degree turn (6:1)
     public void rotateLeft( int degree )
     {
@@ -91,37 +92,37 @@ public class Robot
          * detection[2] - right
          */
         //turns the head a full rotation (180 degrees) and scans three times CHECK DISTANCE VALUE OUTPUT
-        if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
+        if (Motor.A.getTachoCount() > -92 && Motor.A.getTachoCount() < -88)
         {
             if ( us.getDistance() <= 40 )
             {
                 System.out.println( us.getDistance() );
                 detection[0] = true;
-                Motor.A.rotate( 90 );
+                Motor.A.rotateTo( 0, false );
             }
             else
             {
                 System.out.println( us.getDistance() );
                 detection[0] = false;
-                Motor.A.rotate( 90 );
+                Motor.A.rotateTo( 0, false );
             }
         }
-        if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
+        if( Motor.A.getTachoCount() > -2 && Motor.A.getTachoCount() < 2 )
         {
             if ( us.getDistance() <= 40 )
             {
                 System.out.println( us.getDistance() );
                 detection[1] = true;
-                Motor.A.rotate( 90 );
+                Motor.A.rotateTo( 90, false );
             }
             else
             {
                 System.out.println( us.getDistance() );
                 detection[1] = false;
-                Motor.A.rotate( 90 );
+                Motor.A.rotateTo( 90, false );
             }
         }
-        if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
+        if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
         {
             if ( us.getDistance() <= 40 )
             {
