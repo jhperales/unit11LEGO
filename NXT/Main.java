@@ -15,27 +15,27 @@ public class Main
             if( result[0] == true && result[1] == true && result[2] == true )
             {
                 //turns robot 180 degrees
-                robot.rotateRight( 540 );
+                robot.rotateRight( 1080 );
             }
             if( result[0] == false && result[1] == true && result[2] == true )
             {
                 //turns robot 90 degrees left
-                robot.rotateLeft( 270 );
+                robot.rotateLeft( 540 );
             }
             if( result[0] == false && result[1] == false && result[2] == true )
             {
                 //turns robot 45 degrees left
-                robot.rotateLeft( 135 );
+                robot.rotateLeft( 270 );
             }
             if( result[0] == true && result[1] == true && result[2] == false )
             {
                 //turns robot 90 degrees right
-                robot.rotateRight( 270 );
+                robot.rotateRight( 540 );
             }
             if( result[0] == true && result[1] == false && result[2] == false )
             {
                 //turns robot 45 degrees right
-                robot.rotateRight( 135 );
+                robot.rotateRight( 270 );
             }
             if( result[0] == false && result[1] == false && result[2] == false || 
             result[0] == true && result[1] == false && result[2] == true )

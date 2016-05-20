@@ -57,7 +57,7 @@ public class Robot
         Motor.C.forward();
     }
     
-    //270 degree rotation = 90 degree turn (3:1)
+    //540 degree rotation = 90 degree turn (6:1)
     public void rotateLeft( int degree )
     {
         stopMoving();
@@ -90,7 +90,7 @@ public class Robot
          * detection[1] - front
          * detection[2] - right
          */
-        //turns the robot a full rotation (180 degrees) and scans three times CHECK DISTANCE VALUE OUTPUT
+        //turns the head a full rotation (180 degrees) and scans three times CHECK DISTANCE VALUE OUTPUT
         if (Motor.A.getTachoCount() > -95 && Motor.A.getTachoCount() < -85)
         {
             if ( us.getDistance() <= 40 )
@@ -140,7 +140,7 @@ public class Robot
         {
             if( detectedBounds() )
             {
-                turnRight( 60 );
+                turnRight( 120 );
             }
             else if( !detectedBounds() )
             {
