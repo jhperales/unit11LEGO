@@ -31,11 +31,11 @@ public class Robot
         //resets the head to face left
         if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
         {
-            Motor.A.rotateTo( -90 );
+            Motor.A.rotate( -90 );
         }
         if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
         {
-            Motor.A.rotateTo( -180 );
+            Motor.A.rotate( -180 );
         }
     }
 
@@ -95,37 +95,43 @@ public class Robot
         {
             if ( us.getDistance() <= 40 )
             {
+                System.out.println( us.getDistance() );
                 detection[0] = true;
-                Motor.A.rotateTo( 90 );
+                Motor.A.rotate( 90 );
             }
             else
             {
+                System.out.println( us.getDistance() );
                 detection[0] = false;
-                Motor.A.rotateTo( 90 );
+                Motor.A.rotate( 90 );
             }
         }
         if( Motor.A.getTachoCount() > -5 && Motor.A.getTachoCount() < 5 )
         {
             if ( us.getDistance() <= 40 )
             {
+                System.out.println( us.getDistance() );
                 detection[1] = true;
-                Motor.A.rotateTo( 90 );
+                Motor.A.rotate( 90 );
             }
             else
             {
+                System.out.println( us.getDistance() );
                 detection[1] = false;
-                Motor.A.rotateTo( 90 );
+                Motor.A.rotate( 90 );
             }
         }
         if (Motor.A.getTachoCount() > 85 && Motor.A.getTachoCount() < 95)
         {
             if ( us.getDistance() <= 40 )
             {
+                System.out.println( us.getDistance() );
                 detection[2] = true;
                 resetHead();
             }
             else
             {
+                System.out.println( us.getDistance() );
                 detection[2] = false;
                 resetHead();
             }
