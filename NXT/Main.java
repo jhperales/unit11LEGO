@@ -6,7 +6,7 @@ public class Main
     {
         Robot robot = new Robot();
         robot.resetHead();
-        
+
         //Find opening
         boolean moveOut = false;
         while( moveOut != true )
@@ -53,6 +53,7 @@ public class Main
             //Just prevents the rest of the code until the bounds are found
         }
 
+        robot.setSpeed( 500 );
         robot.patrol();
     }
 }

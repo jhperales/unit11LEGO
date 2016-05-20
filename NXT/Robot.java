@@ -14,6 +14,10 @@ public class Robot
 
     public Robot()
     {
+        for( boolean a : detection )
+        {
+            a = true;
+        }
         Motor.A.setSpeed( 750 );
     }
 
@@ -142,7 +146,6 @@ public class Robot
 
     public void patrol()
     {
-        setSpeed( 500 );
         while( Button.readButtons() <= 0 )
         {
             if( detectedBounds() )
