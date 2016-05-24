@@ -17,8 +17,6 @@ public class Robot2
 
     public Robot2()
     {
-        Motor.A.setSpeed( 750 );
-        resetHead();
         FeatureDetector disscan = new RangeFeatureDetector( us, 35, 500 );
         BoxDetect boxlisten = new BoxListener();
         disscan.addListener( listener );
@@ -35,26 +33,13 @@ public class Robot2
 
     public void leaveBox()
     {
-        pdrive.setRotateSpeed( 1080 );
+        pdrive.setRotateSpeed( 540 );
         pdrive.forward();
         while( !detectBounds() )
         {
             
         }
         patrol();
-    }
-    
-    public void resetHead()
-    {
-        //resets the head to face left
-        if( Motor.A.getTachoCount() > -92 && Motor.A.getTachoCount() < -88 )
-        {
-            Motor.A.rotateTo( 0 );
-        }
-        if (Motor.A.getTachoCount() > 88 && Motor.A.getTachoCount() < 92)
-        {
-            Motor.A.rotateTo( 0 );
-        }
     }
 
     public void patrol()
@@ -63,7 +48,7 @@ public class Robot2
         {
             if( detectedBounds() )
             {
-                pdrive.turnRight();
+                pdrive.rotateRight();
             }
             else if( !detectedBounds() )
             {
@@ -71,11 +56,11 @@ public class Robot2
             }
             if( tLeft.isPressed() || tRight.isPressed() || ( tLeft.isPressed() && tRight.isPressed() ) )
             {
-                setSpeed( 250 );
+                setSpeed( 270 );
             }
             else
             {
-                setSpeed( 500 );
+                setSpeed( 540 );
             }
         }
         stopMoving();
